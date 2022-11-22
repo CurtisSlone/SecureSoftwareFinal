@@ -1,0 +1,5 @@
+#ignore python venv lib, bin. and include
+SecureSoftwareApp/lib
+SecureSoftwareApp/bin
+SecureSoftwareApp/include
+

@@ -1,0 +1,22 @@
+version: "3.3"
+
+services:
+  ca:
+    image: centos
+    volumes:
+      - ca_openssl:/etc/pki/tls
+  
+  ldap:
+    image: centos
+    volumes:
+      - ldap_folder:/etc
+
+  dns:
+    image: coredns/coredns
+    volumes:
+      - dns_folder:/etc
+  
+  flask:
+    image: python
+    volumes: 
+      - app_folder: /

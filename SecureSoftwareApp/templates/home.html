@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}SCADA Sensor Analyzer{% endblock %}
+{% block content %}
+{% if not current_user.is_authenticated%}
+<!--------------------------->
+<!-- Information System warning overlay via JS-->
+<!--------------------------->
+<script src="{{url_for('static', filename='js/iswarning.js')}}"></script>
+<script src="{{url_for('static', filename='js/authenticate.js')}}"></script>
+<!--------------------------->
+<!-- LOGIN -->
+<!--------------------------->
+{% endif%}
+
+{% if current_user.is_authenticated%} <!-- Create another if block based on x509 OU-->
+
+% endif%}
+{% endblock%}
