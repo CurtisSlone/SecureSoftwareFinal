@@ -1,5 +1,6 @@
-#ignore python venv lib, bin. and include
+#ignore bloatfiles in SecureSoftwareApp diretory
 SecureSoftwareApp/lib
 SecureSoftwareApp/bin
 SecureSoftwareApp/include
+SecureSoftwareApp/__pycache__
 
