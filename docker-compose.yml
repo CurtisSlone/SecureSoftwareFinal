@@ -19,7 +19,7 @@ services:
   flask:
     image: python
     volumes: 
-      - app_folder: /
+      - app_folder:/
 
   db:
     image: mysql:5.7
