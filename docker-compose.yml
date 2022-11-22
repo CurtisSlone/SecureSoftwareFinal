@@ -1,25 +1,29 @@
 version: "3.3"
 
 services:
-  ca:
+  ca: 
     image: centos
     volumes:
       - ca_openssl:/etc/pki/tls
+    hostname: ca_srv
   
-  ldap:
+  ldap: 
     image: centos
     volumes:
       - ldap_folder:/etc
+    hostname: ldap_srv
 
-  dns:
+  dns: 
     image: coredns/coredns
     volumes:
       - dns_folder:/etc
-  
+    hostname: dns_srv
+
   flask:
     image: python
     volumes: 
       - app_folder:/
+    hostname: flask_srv
 
   db:
     image: mysql:5.7
@@ -30,3 +34,4 @@ services:
       MYSQL_DATABASE: scadaDeviceDb
       MYSQL_USER: user
       MYSQL_PASSWORD: password
+    hostname: mysql_srv
