@@ -20,6 +20,4 @@ def home():
 
 context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 context.load_cert_chain("simple.org.crt","simple.org.key")
-
-
 serving.run_simple("0.0.0.0", 8000, app, ssl_context=context)

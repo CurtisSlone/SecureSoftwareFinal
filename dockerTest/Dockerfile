@@ -1,0 +1,35 @@
+FROM alpine
+LABEL maintainer="curtisdslone@gmail.com"
+LABEL updated="25NOV2022"
+WORKDIR /opt
+RUN apk update; apk add openssl; \
+    mkdir etc; \
+    # Root CA
+    mkdir -p ca/root-ca/private ca/root-ca/db crl certs; \
+    chmod 700 ca/root-ca/private; \
+    cp /dev/null ca/root-ca/db/root-ca.db; \
+    cp /dev/null ca/root-ca/db/root-ca.db.attr; \
+    echo 01 > ca/root-ca/db/root-ca.crt.srl; \
+    echo 01 > ca/root-ca/db/root-ca.crl.srl; \
+    # Network CA
+    mkdir -p ca/network-ca/private ca/network-ca/db crl certs; \
+    chmod 700 ca/network-ca/private; \
+    cp /dev/null ca/network-ca/db/network-ca.db; \
+    cp /dev/null ca/network-ca/db/network-ca.db.attr; \
+    echo 01 > ca/network-ca/db/network-ca.crt.srl; \
+    echo 01 > ca/network-ca/db/network-ca.crl.srl; \
+    # Identity CA
+    mkdir -p ca/identity-ca/private ca/identity-ca/db crl certs; \
+    chmod 700 ca/identity-ca/private; \
+    cp /dev/null ca/identity-ca/db/identity-ca.db; \
+    cp /dev/null ca/identity-ca/db/identity-ca.db.attr; \
+    echo 01 > ca/identity-ca/db/identity-ca.crt.srl; \
+    echo 01 > ca/identity-ca/db/identity-ca.crl.srl; \
+    # Component CA
+    mkdir -p ca/component-ca/private ca/component-ca/db crl certs; \
+    chmod 700 ca/component-ca/private; \
+    cp /dev/null ca/component-ca/db/component-ca.db; \
+    cp /dev/null ca/component-ca/db/component-ca.db.attr; \
+    echo 01 > ca/component-ca/db/component-ca.crt.srl; \
+    echo 01 > ca/component-ca/db/component-ca.crl.srl; \
+COPY ../envFiles/scripts/gencert.sh .

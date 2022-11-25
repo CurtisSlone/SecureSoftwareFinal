@@ -1,7 +1,7 @@
 version: '2'
 services:
   ca:
-    image: alpine
+    image: curtisdslone/caalpine
     container_name: ca_srv
     hostname: ca_srv
-    domainname: ca.scada.local
+    domainname: scada.local

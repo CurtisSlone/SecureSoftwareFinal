@@ -8,10 +8,16 @@ services:
     hostname: ca_srv
   
   ldap: 
-    image: centos
+    image: bitnami/openldap
     volumes:
-      - ldap_folder:/etc
+      - ldap_data:/var/lib/ldap
+      - ldap_config:/etc/ldap/slap.d
     hostname: ldap_srv
+    environment:
+      LDAP_ORG: "SCADA Org"
+      LDAP_DOMAIN: ldap.local
+      LDAP_ADMIN_PASSWORD: password
+      LDAP_ADMIN_USERNAME: admin
 
   dns: 
     image: coredns/coredns
@@ -35,3 +41,17 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     hostname: mysql_srv
+
+volumes:
+  db_data:
+    driver: local
+  app_folder:
+    driver: local
+  dns_folder:
+    driver: local
+  ldap_data:
+    driver: local
+  ldap_config:
+    driver: local
+  ca_openssl:
+    driver: local
