@@ -161,13 +161,14 @@ openssl req -new \
     -config etc/client.conf \
     -passout pass:password \
     -out certs/net-mon.csr \
-    -keyout certs/net-mon.key
+    -keyout certs/net-mon.key \
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=Devices/CN=device1"
 
 # Generate SCADA Device TLS CERT
 openssl ca \
-    -batch
+    -batch \
     -config etc/component-ca.conf \
     -passin pass:password \
     -in certs/net-mon.csr \
     -out certs/net-mon.crt \
-    -extensions client_ext
+    -extensions client_ext 

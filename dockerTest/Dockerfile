@@ -2,6 +2,8 @@ FROM alpine
 LABEL maintainer="curtisdslone@gmail.com"
 LABEL updated="25NOV2022"
 WORKDIR /opt
+COPY ../envFiles/scripts/gencert.sh .
+COPY ../envFiles/conf/ * ./etc
 RUN apk update; apk add openssl; \
     mkdir etc; \
     # Root CA
@@ -32,4 +34,5 @@ RUN apk update; apk add openssl; \
     cp /dev/null ca/component-ca/db/component-ca.db.attr; \
     echo 01 > ca/component-ca/db/component-ca.crt.srl; \
     echo 01 > ca/component-ca/db/component-ca.crl.srl; \
-COPY ../envFiles/scripts/gencert.sh .
+    # Run Certificate Generationg script
+    . ./gencerts.sh
