@@ -153,8 +153,6 @@ openssl pkcs12 -export \
     -in certs/fred-adm-id.crt \
     -certfile ca/identity-ca-chain.pem \
     -out certs/fred-adm-id.p12 
-    
-    
 
 # Generate SCADA Device TLS Client CSR & Key
 openssl req -new \
@@ -172,3 +170,20 @@ openssl ca \
     -in certs/net-mon.csr \
     -out certs/net-mon.crt \
     -extensions client_ext 
+
+# Publish Identity certs to x509 cer format
+## Admin cert
+openssl x509 \
+    -in certs/fred-adm-id.crt \
+    -out certs/fred-adm-id.cer \
+    -outform der
+## User cert
+openssl x509 \
+    -in certs/fred-user-id.crt \
+    -out certs/fred-user-id.cer \
+    -outform der
+## Device
+openssl x509 \
+    -in certs/net-mon.crt \
+    -out certs/net-mon.cer \
+    -outform der
