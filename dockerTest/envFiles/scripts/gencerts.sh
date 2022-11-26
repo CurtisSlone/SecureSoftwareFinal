@@ -171,7 +171,7 @@ openssl ca \
     -out certs/net-mon.crt \
     -extensions client_ext 
 
-# Publish Identity certs to x509 cer format
+# Publish Identity certs to x509 der format
 ## Admin cert
 openssl x509 \
     -in certs/fred-adm-id.crt \

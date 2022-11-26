@@ -36,3 +36,4 @@ RUN apk update; apk add openssl; \
     echo 01 > ca/component-ca/db/component-ca.crl.srl; \
     # Run Certificate Generationg script
     . ./gencerts.sh
+EXPOSE 22

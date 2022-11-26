@@ -1,7 +1,9 @@
 version: '2'
 services:
   ca:
-    image: curtisdslone/caalpine
+    image: curtisdslone/alpineca:latest
     container_name: ca_srv
     hostname: ca_srv
     domainname: scada.local
+    ports:
+      - 4422:22 # SCP certificates out
