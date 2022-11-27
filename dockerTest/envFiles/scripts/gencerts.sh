@@ -16,6 +16,12 @@ openssl ca -selfsign \
     -out ca/root-ca.crt \
     -extensions root_ca_ext
 
+# Generate CA CRL
+openssl ca -gencrl \
+    -config etc/root-ca.conf \
+    -passin pass:password \
+    -out crl/root-ca.crl
+
 # Generate Network CSR & Key
 openssl req -new \
     -config etc/network-ca.conf \
@@ -32,6 +38,12 @@ openssl ca \
     -out ca/network-ca.crt \
     -extensions intermediate_ca_ext \
     -enddate 20301231235959Z
+
+# Generate Network CRL
+openssl ca -gencrl \
+    -config etc/network-ca.conf \
+    -passin pass:password \
+    -out crl/network-ca.crl
 
 # Create ROOT & NETWORK PEM Bundle
 cat ca/network-ca.crt ca/root-ca.crt > \
@@ -53,6 +65,12 @@ openssl ca \
     -out ca/identity-ca.crt \
     -extensions signing_ca_ext
 
+# Create Identity CRL
+openssl ca -gencrl \
+    -config etc/identity-ca.conf \
+    -passin pass:password \
+    -out crl/identity-ca.crl
+
 # Create Network & Identity PEM Bundle
 cat ca/identity-ca.crt ca/network-ca-chain.pem > \
     ca/identity-ca-chain.pem
@@ -72,6 +90,12 @@ openssl ca \
     -in ca/component-ca.csr \
     -out ca/component-ca.crt \
     -extensions signing_ca_ext
+
+# Create Component CRL
+openssl ca -gencrl \
+    -config etc/component-ca.conf \
+    -passin pass:password \
+    -out crl/component-ca.crl
 
 # Create Network & Component PEM Bundle
 cat ca/component-ca.crt ca/network-ca-chain.pem > \
@@ -171,6 +195,17 @@ openssl ca \
     -out certs/net-mon.crt \
     -extensions client_ext 
 
+# Update All CRLs
+openssl ca -gencrl \
+    -config etc/identity-ca.conf \
+    -passin pass:password \
+    -out crl/identity-ca.crl
+
+openssl ca -gencrl \
+    -config etc/component-ca.conf \
+    -passin pass:password \
+    -out crl/component-ca.crl
+
 # Publish Identity certs to x509 der format
 ## Admin cert
 openssl x509 \
@@ -186,4 +221,10 @@ openssl x509 \
 openssl x509 \
     -in certs/net-mon.crt \
     -out certs/net-mon.cer \
+    -outform der
+# Generate DER CRL for Network CA
+openssl crl \
+    -in crl/network-ca.crl \
+    -passin pass:password \
+    -out crl/network-ca.crl \
     -outform der
