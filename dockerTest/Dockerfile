@@ -34,6 +34,6 @@ RUN apk update; apk add openssl; \
     cp /dev/null ca/component-ca/db/component-ca.db.attr; \
     echo 01 > ca/component-ca/db/component-ca.crt.srl; \
     echo 01 > ca/component-ca/db/component-ca.crl.srl; \
-    # Run Certificate Generationg script
-    . ./gencerts.sh
+    # Run Certificate Generating script
+    . ./gencerts.sh;
 EXPOSE 22

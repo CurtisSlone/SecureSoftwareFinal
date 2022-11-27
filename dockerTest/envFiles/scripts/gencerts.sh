@@ -228,3 +228,4 @@ openssl crl \
     -passin pass:password \
     -out crl/network-ca.crl \
     -outform der
+echo 'finished'
