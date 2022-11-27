@@ -154,7 +154,7 @@ openssl req -new \
     -passout pass:12345678 \
     -out certs/fred-adm-id.csr \
     -keyout certs/fred-adm-id.key \
-    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=Admin/CN=fred.flintstone"
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=Admin/CN=fred.flintstone.adm"
 
 #Generate Admin ID Cert
 openssl ca \
@@ -167,7 +167,7 @@ openssl ca \
 
 # Generate PKCS#12 for Admin ID
 openssl pkcs12 -export \
-    -name "fred.flintstone.admin" \
+    -name "fred.flintstone.adm" \
     -caname "Identity CA" \
     -caname "Network CA" \
     -caname "Root CA" \
