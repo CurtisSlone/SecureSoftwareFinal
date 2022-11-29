@@ -105,8 +105,8 @@ cat ca/component-ca.crt ca/network-ca-chain.pem > \
 SAN=DNS:webapp.scada.local \
 openssl req -new \
     -config etc/server.conf \
-    -out certs/webapp.scada.local.csr \
-    -keyout certs/webapp.scada.local.key \
+    -out certs/webapp-scada-local.csr \
+    -keyout certs/webapp-scada-local.key \
     -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_WEB/CN=web.scada.local"
 
 # Generate TLS CERT
@@ -114,8 +114,25 @@ openssl ca \
     -batch \
     -config etc/component-ca.conf \
     -passin pass:password \
-    -in certs/webapp.scada.local.csr \
-    -out certs/webapp.scada.local.crt \
+    -in certs/webapp-scada-local.csr \
+    -out certs/webapp-scada-local.crt \
+    -extensions server_ext
+
+# Generate TLS CSR & Key for LDAP
+SAN=DNS:ldap.scada.local \
+openssl req -new \
+    -config etc/server.conf \
+    -out certs/ldap-scada-local.csr \
+    -keyout certs/ldap-scada-local.key \
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_ldap/CN=ldap.scada.local"
+
+# Generate TLS CERT
+openssl ca \
+    -batch \
+    -config etc/component-ca.conf \
+    -passin pass:password \
+    -in certs/ldap-scada-local.csr \
+    -out certs/ldap-scada-local.crt \
     -extensions server_ext
 
 # Generate USER ID CSR & Key
