@@ -3,15 +3,5 @@ services:
   ldap:
     image: curtisdslone/alpineldap:latest
     container_name: ldap_srv
-    environment:
-        - LDAP_ORGANISATION=SCADA
-        - LDAP_DOMAIN=scada.local
-        - LDAP_BASE_DN="dc=scada,dc=local"
-        - LDAP_ADMIN_PASSWORD=password
-        - LDAP_TLS=true
-
-    ports:
-        - 389:389
-        - 636:636
     hostname: ldap_srv
     
