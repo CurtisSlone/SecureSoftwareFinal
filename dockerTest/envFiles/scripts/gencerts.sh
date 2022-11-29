@@ -126,7 +126,7 @@ openssl req -new \
     -keyout certs/ldap-scada-local.key \
     -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_ldap/CN=ldap.scada.local"
 
-# Generate TLS CERT
+# Generate LDAP TLS CERT
 openssl ca \
     -batch \
     -config etc/component-ca.conf \
