@@ -1,0 +1,39 @@
+# Root of Dir Tree
+dn: dc=scada,dc=local
+description: Scada.local for python webapp.
+dc: scada
+o: SCADA
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+
+#Subtree for Devices
+dn: ou=Devices,dc=scada,dc=local
+ou: Devices
+description: Trusted network devices
+objectClass: organizationalUnit
+
+#Subtree for Users
+dn: ou=Users,dc=scada,dc=local
+ou: Users
+description: Trusted network users
+objectClass: organizationalUnit
+
+#Subtree for Admins
+dn: ou=Admins,dc=scada,dc=local
+ou: Admins
+description: Trusted network users
+objectClass: organizationalUnit
+
+##
+## Devices
+##
+
+
+##
+## Users
+##
+
+##
+## Admins
+##
