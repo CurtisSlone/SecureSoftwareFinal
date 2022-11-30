@@ -3,10 +3,9 @@ LABEL maintainer="curtisdslone@gmail.com"
 LABEL updated="25NOV2022"
 WORKDIR /opt
 COPY envFiles/scripts/gencerts.sh .
-COPY envFiles/conf/ca/* ./etc
+COPY envFiles/conf/ca/* .
 ENTRYPOINT ["tail", "-f", "/dev/null"]
 RUN apk update; apk add openssl; \
-    mkdir etc; \
     # Root CA
     mkdir -p ca/root-ca/private ca/root-ca/db crl certs; \
     chmod 700 ca/root-ca/private; \
