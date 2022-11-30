@@ -4,7 +4,6 @@ LABEL updated="25NOV2022"
 WORKDIR /opt
 COPY envFiles/scripts/gencerts.sh .
 COPY envFiles/conf/ca/* .
-ENTRYPOINT ["tail", "-f", "/dev/null"]
 RUN apk update; apk add openssl; \
     # Root CA
     mkdir -p ca/root-ca/private ca/root-ca/db crl certs; \

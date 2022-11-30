@@ -29,11 +29,91 @@ objectClass: organizationalUnit
 ## Devices
 ##
 
+# West Sensor 1
+dn: uid=west.sensor1,ou=Devices,dc=scada,dc=local
+ou: Admins
+# Name info:
+uid: fred.flintstone.adm
+cn: West Sensor 1
+sn: Sensor
+displayName: West Sensor 1
+# Work Info:
+title: Sensor
+description: sensor
+mail: blackhole@scada.local
+telephoneNumber: +1 555 555 4321
+mobile: +1 555 555 6789
+st: Illinois
+l: Chicago
+street: 1234 Cicero Ave.
+# Home Info:
+homePhone: +1 555 555 9876
+homePostalAddress: 1234 home street $ Chicago, IL $ 60699-1234
+
+# Object Classes:
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
 
 ##
 ## Users
 ##
 
+# Fred.Flinstone
+dn: uid=fred.flintsone,ou=Users,dc=scada,dc=local
+ou: Users
+# Name info:
+uid: fred.flintstone
+cn: Fred Flintstone
+sn: Flintstone
+givenName: Fred
+givenName: Flintstone
+displayName: Fred Flintstone
+# Work Info:
+title: System User
+description: Systems User for scada.local
+mail: fred.flintstone@scada.local
+telephoneNumber: +1 555 555 4321
+mobile: +1 555 555 6789
+st: Illinois
+l: Chicago
+street: 1234 Cicero Ave.
+# Home Info:
+homePhone: +1 555 555 9876
+homePostalAddress: 1234 home street $ Chicago, IL $ 60699-1234
+
+# Object Classes:
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+
 ##
 ## Admins
 ##
+# Fred.Flinstone.Adm
+dn: uid=fred.flintsone.adm,ou=Admins,dc=scada,dc=local
+ou: Admins
+# Name info:
+uid: fred.flintstone.adm
+cn: Fred Flintstone
+sn: Flintstone
+givenName: Fred
+givenName: Flintstone
+displayName: Fred Flintstone
+# Work Info:
+title: System Admin
+description: Systems Admin for scada.local
+mail: fred.flintstone@scada.local
+telephoneNumber: +1 555 555 4321
+mobile: +1 555 555 6789
+st: Illinois
+l: Chicago
+street: 1234 Cicero Ave.
+# Home Info:
+homePhone: +1 555 555 9876
+homePostalAddress: 1234 home street $ Chicago, IL $ 60699-1234
+
+# Object Classes:
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
