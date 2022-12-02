@@ -4,4 +4,11 @@ SecureSoftwareApp/bin
 SecureSoftwareApp/include
 SecureSoftwareApp/__pycache__
 
+#ignore bloatfiles in x509_Handler diretory
+x509_Handler/lib
+x509_Handler/bin
+x509_Handler/include
+x509_Handler/__pycache__
+
+
 
