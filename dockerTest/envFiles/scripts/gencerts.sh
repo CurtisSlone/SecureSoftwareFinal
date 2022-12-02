@@ -2,7 +2,7 @@
 
 #Generate Root CSR & Key
 openssl req -new \
-    -config ./root-ca.conf \
+    -config etc/root-ca.conf \
     -passout pass:password \
     -out ca/root-ca.csr \
     -keyout ca/root-ca/private/root-ca.key
@@ -10,7 +10,7 @@ openssl req -new \
 #Generate CA Cert
 openssl ca -selfsign \
     -batch \
-    -config ./root-ca.conf \
+    -config etc/root-ca.conf \
     -passin pass:password \
     -in ca/root-ca.csr \
     -out ca/root-ca.crt \
@@ -18,13 +18,13 @@ openssl ca -selfsign \
 
 # Generate CA CRL
 openssl ca -gencrl \
-    -config ./root-ca.conf \
+    -config etc/root-ca.conf \
     -passin pass:password \
     -out crl/root-ca.crl
 
 # Generate Network CSR & Key
 openssl req -new \
-    -config ./network-ca.conf \
+    -config etc/network-ca.conf \
     -passout pass:password \
     -out ca/network-ca.csr \
     -keyout ca/network-ca/private/network-ca.key
@@ -32,7 +32,7 @@ openssl req -new \
 # Generate Network CA cert
 openssl ca \
     -batch \
-    -config ./root-ca.conf \
+    -config etc/root-ca.conf \
     -passin pass:password \
     -in ca/network-ca.csr \
     -out ca/network-ca.crt \
@@ -41,7 +41,7 @@ openssl ca \
 
 # Generate Network CRL
 openssl ca -gencrl \
-    -config ./network-ca.conf \
+    -config etc/network-ca.conf \
     -passin pass:password \
     -out crl/network-ca.crl
 
@@ -51,7 +51,7 @@ cat ca/network-ca.crt ca/root-ca.crt > \
 
 # Create Identity CA CSR & Key
 openssl req -new \
-    -config ./identity-ca.conf \
+    -config etc/identity-ca.conf \
     -passout pass:password \
     -out ca/identity-ca.csr \
     -keyout ca/identity-ca/private/identity-ca.key
@@ -59,7 +59,7 @@ openssl req -new \
 # Create Identity CA Cert
 openssl ca \
     -batch \
-    -config ./network-ca.conf \
+    -config etc/network-ca.conf \
     -passin pass:password \
     -in ca/identity-ca.csr \
     -out ca/identity-ca.crt \
@@ -67,7 +67,7 @@ openssl ca \
 
 # Create Identity CRL
 openssl ca -gencrl \
-    -config ./identity-ca.conf \
+    -config etc/identity-ca.conf \
     -passin pass:password \
     -out crl/identity-ca.crl
 
@@ -77,7 +77,7 @@ cat ca/identity-ca.crt ca/network-ca-chain.pem > \
 
 # Create Component CA CSR & Key
 openssl req -new \
-    -config ./component-ca.conf \
+    -config etc/component-ca.conf \
     -passout pass:password \
     -out ca/component-ca.csr \
     -keyout ca/component-ca/private/component-ca.key
@@ -85,7 +85,7 @@ openssl req -new \
 #Create Component CA Cert
 openssl ca \
     -batch \
-    -config ./network-ca.conf \
+    -config etc/network-ca.conf \
     -passin pass:password \
     -in ca/component-ca.csr \
     -out ca/component-ca.crt \
@@ -93,7 +93,7 @@ openssl ca \
 
 # Create Component CRL
 openssl ca -gencrl \
-    -config ./component-ca.conf \
+    -config etc/component-ca.conf \
     -passin pass:password \
     -out crl/component-ca.crl
 
@@ -104,7 +104,7 @@ cat ca/component-ca.crt ca/network-ca-chain.pem > \
 # Generate TLS CSR & Key for Web-app
 SAN=DNS:webapp.scada.local \
 openssl req -new \
-    -config ./server.conf \
+    -config etc/server.conf \
     -out certs/webapp-scada-local.csr \
     -keyout certs/webapp-scada-local.key \
     -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_WEB/CN=web.scada.local"
@@ -112,7 +112,7 @@ openssl req -new \
 # Generate TLS CERT
 openssl ca \
     -batch \
-    -config ./component-ca.conf \
+    -config etc/component-ca.conf \
     -passin pass:password \
     -in certs/webapp-scada-local.csr \
     -out certs/webapp-scada-local.crt \
@@ -121,7 +121,7 @@ openssl ca \
 # Generate TLS CSR & Key for LDAP
 SAN=DNS:ldap.scada.local \
 openssl req -new \
-    -config ./server.conf \
+    -config etc/server.conf \
     -out certs/ldap-scada-local.csr \
     -keyout certs/ldap-scada-local.key \
     -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_ldap/CN=ldap.scada.local"
@@ -129,15 +129,32 @@ openssl req -new \
 # Generate LDAP TLS CERT
 openssl ca \
     -batch \
-    -config ./component-ca.conf \
+    -config etc/component-ca.conf \
     -passin pass:password \
     -in certs/ldap-scada-local.csr \
     -out certs/ldap-scada-local.crt \
     -extensions server_ext
 
+# Generate TLS CSR & Key for Authenticator
+SAN=DNS:Authenticator.scada.local \
+openssl req -new \
+    -config etc/server.conf \
+    -out certs/auth-scada-local.csr \
+    -keyout certs/auth-scada-local.key \
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_ldap/CN=authenticator.scada.local"
+
+# Generate LDAP TLS CERT
+openssl ca \
+    -batch \
+    -config etc/component-ca.conf \
+    -passin pass:password \
+    -in certs/auth-scada-local.csr \
+    -out certs/auth-scada-local.crt \
+    -extensions server_ext
+
 # Generate USER ID CSR & Key
 openssl req -new \
-    -config ./identity.conf \
+    -config etc/identity.conf \
     -passout pass:12345678 \
     -out certs/fred-user-id.csr \
     -keyout certs/fred-user-id.key \
@@ -146,7 +163,7 @@ openssl req -new \
 #Generate USER ID Cert
 openssl ca \
     -batch \
-    -config ./identity-ca.conf \
+    -config etc/identity-ca.conf \
     -passin pass:password \
     -in certs/fred-user-id.csr \
     -out certs/fred-user-id.crt \
@@ -167,7 +184,7 @@ openssl pkcs12 -export \
 
 # Generate Admin ID CSR & Key
 openssl req -new \
-    -config ./identity.conf \
+    -config etc/identity.conf \
     -passout pass:12345678 \
     -out certs/fred-adm-id.csr \
     -keyout certs/fred-adm-id.key \
@@ -176,7 +193,7 @@ openssl req -new \
 #Generate Admin ID Cert
 openssl ca \
     -batch \
-    -config ./identity-ca.conf \
+    -config etc/identity-ca.conf \
     -passin pass:password \
     -in certs/fred-adm-id.csr \
     -out certs/fred-adm-id.crt \
@@ -197,7 +214,7 @@ openssl pkcs12 -export \
 
 # Generate SCADA Device TLS Client CSR & Key
 openssl req -new \
-    -config ./client.conf \
+    -config etc/client.conf \
     -passout pass:password \
     -out certs/net-mon.csr \
     -keyout certs/net-mon.key \
@@ -206,7 +223,7 @@ openssl req -new \
 # Generate SCADA Device TLS CERT
 openssl ca \
     -batch \
-    -config ./component-ca.conf \
+    -config etc/component-ca.conf \
     -passin pass:password \
     -in certs/net-mon.csr \
     -out certs/net-mon.crt \
@@ -214,12 +231,12 @@ openssl ca \
 
 # Update All CRLs
 openssl ca -gencrl \
-    -config ./identity-ca.conf \
+    -config etc/identity-ca.conf \
     -passin pass:password \
     -out crl/identity-ca.crl
 
 openssl ca -gencrl \
-    -config ./component-ca.conf \
+    -config etc/component-ca.conf \
     -passin pass:password \
     -out crl/component-ca.crl
 

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            {% block title %}SCADA Sensor Analyzer{% endblock %}
+        </title>
+        <!--------------------------->
+        <!-- Bootstrap Elements for basic grid -->
+        <!--------------------------->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+        <!--------------------------->
+        <!-- Ajax and Jquery-->
+        <!--------------------------->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <!--------------------------->
+        <!-- App Main Static Files -->
+        <!--------------------------->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+        <script src="{{url_for('static', filename='js/main.js')}}"></script>
+    </head>
+    
+    <body >
+        <header class="container-fluid">
+            <ul class="nav row">
+                
+                </ul>
+        </header>
+        <div class="container content">
+            <!--------------------------->
+            <!-- Main Content-->
+            <!--------------------------->
+            {% block content %}
+            {% endblock %}
+        </div>
+        <footer>
+
+        </footer>
+    </body>
+</html>

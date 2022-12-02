@@ -1,9 +1,8 @@
 """
 File: app.py
 Author: Curtis Slone
-Date: 11 Nov 2022
-Description: REST app that allows x509 authenticated users to view temperature and humidity data ingested from various industrial sensors 
-and allows authenticated administrators to update sensor information
+Date: 01 Dec 2022
+Description: Authenticator that authenticates x509 digital identity with Registration Authority. Uses JWT to manage sessions.
 """
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import ssl
@@ -19,5 +18,5 @@ def home():
     return "hello"
 
 context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-context.load_cert_chain("simple.org.crt","simple.org.key")
-serving.run_simple("0.0.0.0", 8000, app, ssl_context=context)
+context.load_cert_chain("../testcerts/auth-scada-local.crt","../testcerts/auth-scada-local.key")
+serving.run_simple("0.0.0.0", 2443, app, ssl_context=context)

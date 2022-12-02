@@ -1,14 +1,13 @@
-#ignore bloatfiles in SecureSoftwareApp diretory
-SecureSoftwareApp/lib
-SecureSoftwareApp/bin
-SecureSoftwareApp/include
-SecureSoftwareApp/__pycache__
+#ignore bloatfiles in FrontEnd diretory
+FrontEnd/lib
+FrontEnd/bin
+FrontEnd/include
+FrontEnd/__pycache__
 
-#ignore bloatfiles in x509_Handler diretory
-x509_Handler/lib
-x509_Handler/bin
-x509_Handler/include
-x509_Handler/__pycache__
-
+#ignore bloatfiles in Authenticator diretory
+Authenticator/lib
+Authenticator/bin
+Authenticator/include
+Authenticator/__pycache__
 
 

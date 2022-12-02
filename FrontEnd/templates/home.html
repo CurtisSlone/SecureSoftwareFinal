@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}SCADA Sensor Analyzer{% endblock %}
+{% block content %}
+<!--------------------------->
+<!-- Information System warning overlay via JS-->
+<!--------------------------->
+<script src="{{url_for('static', filename='js/iswarning.js')}}"></script>
+<script src="{{url_for('static', filename='js/authenticate.js')}}"></script>
+<!--------------------------->
+<!-- LOGIN -->
+<!--------------------------->
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+      </div>
+      <div class="col-sm">
+        <button type="button" class="btn btn-primary">Login</button>
+      </div>
+      <div class="col-sm">
+      </div>
+    </div>
+  </div>
+{% endblock%}
