@@ -3,7 +3,7 @@ services:
   ca:
     image: curtisdslone/zerotrustca:latest
     volumes: 
-      - ca_data:/opt
+      - ca_data:/opt/ldap
     container_name: ca_srv
     hostname: ca_srv
     domainname: scada.local

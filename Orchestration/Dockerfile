@@ -3,8 +3,10 @@ LABEL maintainer="curtisdslone@gmail.com"
 LABEL updated="25NOV2022"
 WORKDIR /opt
 COPY envFiles/scripts/gencerts.sh .
+COPY envFiles/scripts/buildldif.sh .
 COPY envFiles/conf/ca/* .
-RUN apk update; apk add openssl; \
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+RUN apk update; apk add openssl; apk add base64;\
     # Root CA
     mkdir -p ca/root-ca/private ca/root-ca/db crl certs; \
     chmod 700 ca/root-ca/private; \
@@ -34,4 +36,8 @@ RUN apk update; apk add openssl; \
     echo 01 > ca/component-ca/db/component-ca.crt.srl; \
     echo 01 > ca/component-ca/db/component-ca.crl.srl; \
     # Run Certificate Generating script
-    . ./gencerts.sh;
+    . ./gencerts.sh; \
+    # Build ldif file for LDAP
+    . ./buildldif.sh; \
+    mkdir ldap; \
+    mv init.ldif ldap/init.ldif;
