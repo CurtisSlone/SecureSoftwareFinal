@@ -16,7 +16,6 @@ Certtrust/bin
 Certtrust/include
 Certtrust/__pycache__
 
-
 #ignore bloatfiles in DataStore diretory
 DataStore/lib
 DataStore/bin
