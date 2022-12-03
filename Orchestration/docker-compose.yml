@@ -3,7 +3,8 @@ services:
   ca:
     image: curtisdslone/zerotrustca:latest
     volumes: 
-      - ca_data:/opt/ldap
+      - ldapVol:/opt/ldap
+      - CAVol:/opt
     container_name: ca_srv
     hostname: ca_srv
     domainname: scada.local
@@ -12,9 +13,10 @@ services:
       - ca
     image: curtisdslone/zerotrustldap:latest
     volumes: 
-      - ca_data:/opt
+      - ldapVol:/opt
     container_name: ldap_srv
     hostname: ldap_srv
     domainname: scada.local
 volumes:
-  ca_data: {}
+  ldapVol: {}
+  CAVol: {}
