@@ -1,22 +1,24 @@
 version: '2'
 services:
   ca:
-    image: curtisdslone/zerotrustca:latest
+    image: ca:latest
     volumes: 
-      - ldapVol:/opt/ldap
-      - CAVol:/opt
-    container_name: ca_srv
-    hostname: ca_srv
+      - certVol:/opt/CERT
+      - 
+    container_name: ca
+    hostname: ca
     domainname: scada.local
-  ldap:
+  cert:
     depends_on:
       - ca
-    image: curtisdslone/zerotrustldap:latest
+    image: alpine
     volumes: 
-      - ldapVol:/etc/openldap
-    container_name: ldap_srv
-    hostname: ldap_srv
+      - certVol:/opt/
+    container_name: cert
+    hostname: cert
     domainname: scada.local
 volumes:
-  ldapVol: {}
-  CAVol: {}
+  certVol: {}
+  dataVol: {}
+  webVol: {}
+  authVol: {}

@@ -19,5 +19,5 @@ def home():
     return render_template('home.html')
 
 context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-context.load_cert_chain("../testcerts/webapp-scada-local.crt","../testcerts/webapp-scada-local.key")
+context.load_cert_chain("../TestCerts/Component/web-scada.crt","../TestCerts/Component/web-scada.key")
 serving.run_simple("0.0.0.0", 1443, app, ssl_context=context)

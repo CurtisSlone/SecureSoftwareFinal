@@ -10,4 +10,15 @@ Authenticator/bin
 Authenticator/include
 Authenticator/__pycache__
 
+#ignore bloatfiles in Certtrust diretory
+Certtrust/lib
+Certtrust/bin
+Certtrust/include
+Certtrust/__pycache__
 
+
+#ignore bloatfiles in DataStore diretory
+DataStore/lib
+DataStore/bin
+DataStore/include
+DataStore/__pycache__
