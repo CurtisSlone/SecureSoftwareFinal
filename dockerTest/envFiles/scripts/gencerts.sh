@@ -158,7 +158,7 @@ openssl req -new \
     -passout pass:12345678 \
     -out certs/fred-user-id.csr \
     -keyout certs/fred-user-id.key \
-    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=User/CN=fred.flintstone"
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=Users/CN=fred.flintstone"
 
 #Generate USER ID Cert
 openssl ca \
@@ -188,7 +188,7 @@ openssl req -new \
     -passout pass:12345678 \
     -out certs/fred-adm-id.csr \
     -keyout certs/fred-adm-id.key \
-    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=Admin/CN=fred.flintstone.adm"
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=Admins/CN=fred.flintstone.adm"
 
 #Generate Admin ID Cert
 openssl ca \
