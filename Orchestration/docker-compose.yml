@@ -13,7 +13,7 @@ services:
       - ca
     image: curtisdslone/zerotrustldap:latest
     volumes: 
-      - ldapVol:/opt
+      - ldapVol:/etc/openldap
     container_name: ldap_srv
     hostname: ldap_srv
     domainname: scada.local
