@@ -21,3 +21,9 @@ DataStore/lib
 DataStore/bin
 DataStore/include
 DataStore/__pycache__
+
+#ignore bloatfiles in Orchestration/universalPy diretory
+Orchestration/universalPy/lib
+Orchestration/universalPy/bin
+Orchestration/universalPy/include
+Orchestration/universalPy/__pycache_
