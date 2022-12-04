@@ -4,29 +4,44 @@
 <!--------------------------->
 <!-- Information System warning overlay via JS-->
 <!--------------------------->
-<script src="{{url_for('static', filename='js/iswarning.js')}}"></script>
-<script src="{{url_for('static', filename='js/authenticate.js')}}"></script>
+
 <!--------------------------->
 <!-- LOGIN -->
 <!--------------------------->
-<div class="container">
+<div>
     <div class="row">
-      <div class="col-sm">
+      <form name="authForm" id="auth" action="/" method="POST">
+      <div class="col-md">
+        <h3> Select PKI User</h3>
+        <select name="pkiUser" id="pki">
+          <option value="none" selected disabled hidden>Select an Option</option>
+          {% for item in list %}
+            <option value="{{ item['dn'] }}">{{ item['dn'] }}</option>
+          {% endfor %}
+        </select>
       </div>
-      <div class="col-sm">
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown button
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
+      <div class="col-md">
+        <input type="text" id="selected-user" />
+      </div>
+      <div class="col-md">
+        <div>
+          <h3>Pin</h3>
+          <input type="password" />
         </div>
       </div>
-      <div class="col-sm">
+      <div class="col-md">
+        <button type="submit" class="btn btn-danger">Submit</button>
       </div>
+      </form>
+    </div>
+    <div class="row">
+      
     </div>
   </div>
+  <script>
+    document.getElementById('pki').addEventListener('change', function() {
+    document.getElementById('selected-user').placeholder=this.value;
+    document.getElementById('selected-user').readOnly=true;
+});
+  </script>
 {% endblock%}

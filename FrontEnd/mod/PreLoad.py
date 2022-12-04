@@ -24,4 +24,4 @@ class PreLoad:
         """
         Publicly expose dnListing
         """
-        return self.__dnListing    
+        return self.__dnListing
