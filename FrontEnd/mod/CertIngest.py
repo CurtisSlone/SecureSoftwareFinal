@@ -1,6 +1,7 @@
 import hashlib
 import base64
 from cryptography import x509
+from cryptography.x509.oid import NameOID
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import rsa,padding
 
@@ -37,3 +38,13 @@ class CertIngest:
         Encrypt bytes
         """
         return self.__publicKey.encrypt(data,padding.OAEP(mgf=padding.MGF1(algorithm=hashes.SHA256()),algorithm=hashes.SHA256(),label=None))
+    def getOU(self):
+        """
+        Expose Cert OUT
+        """
+        return self.__crtobj.subject.rfc4514_string().split(',')[1].split('=')[1]
+    def getSerial(self):
+        """
+        Expose Serial
+        """
+        return self.__crtobj.serial_number

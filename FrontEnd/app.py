@@ -32,7 +32,10 @@ def auth():
     dn = request.form['selected-user']
     pin = request.form['pin']
     current = preload.matchInfo(dn)
-    cert = CertIngest()
-
-    
-    return f"{current}"
+    cert = CertIngest(current['certpath'])
+    key = PrivKeyIngest(current['keypath'],pin)
+    hash = cert.getHash()
+    signature = key.sign(hash)
+    ou = cert.getOU
+    serial = cert.getSerial
+    return f"{signature}"
