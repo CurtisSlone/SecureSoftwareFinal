@@ -7,19 +7,32 @@ and allows authenticated administrators to update sensor information
 """
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import ssl
-from werkzeug import serving
+import sys
 from mod.PreLoad import *
+from datetime import datetime
+from mod.CertIngest import *
+from mod.PrivKeyIngest import *
 app = Flask(__name__)
 preload = PreLoad()
 dnList = preload.getDNListing()
 #################
-### ROUTES ###
+### ROUTES 
 #################
 @app.route('/')
 def home():
     """Return Homepage"""
     return render_template('home.html', list=dnList)
+@app.route('/auth', methods=['POST'])
+def auth():
+    """
+   Authentication
+    """
+    now = datetime.now()
+    date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
+    dn = request.form['selected-user']
+    pin = request.form['pin']
+    current = preload.matchInfo(dn)
+    cert = CertIngest()
 
-context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-context.load_cert_chain("../TestCerts/Component/web-scada.crt","../TestCerts/Component/web-scada.key")
-serving.run_simple("0.0.0.0", 1443, app, ssl_context=context)
+    
+    return f"{current}"

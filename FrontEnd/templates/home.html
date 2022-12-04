@@ -5,12 +5,13 @@
 <!-- Information System warning overlay via JS-->
 <!--------------------------->
 
-<!--------------------------->
-<!-- LOGIN -->
-<!--------------------------->
+
 <div>
     <div class="row">
-      <form name="authForm" id="auth" action="/" method="POST">
+      <!--------------------------->
+      <!-- Auth -->
+      <!--------------------------->
+      <form name="auth" action="/auth" method="POST">
       <div class="col-md">
         <h3> Select PKI User</h3>
         <select name="pkiUser" id="pki">
@@ -21,18 +22,21 @@
         </select>
       </div>
       <div class="col-md">
-        <input type="text" id="selected-user" />
+        <input type="text" name="selected-user" id="selected-user" />
       </div>
       <div class="col-md">
         <div>
           <h3>Pin</h3>
-          <input type="password" />
+          <input name="pin" type="password" />
         </div>
       </div>
       <div class="col-md">
-        <button type="submit" class="btn btn-danger">Submit</button>
+        <button type="submit" id="form_button" class="btn btn-danger">Submit</button>
       </div>
       </form>
+      <!--------------------------->
+      <!-- End Auth -->
+      <!--------------------------->
     </div>
     <div class="row">
       
@@ -40,7 +44,7 @@
   </div>
   <script>
     document.getElementById('pki').addEventListener('change', function() {
-    document.getElementById('selected-user').placeholder=this.value;
+    document.getElementById('selected-user').value=this.value;
     document.getElementById('selected-user').readOnly=true;
 });
   </script>

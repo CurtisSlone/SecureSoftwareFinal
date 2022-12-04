@@ -25,3 +25,11 @@ class PreLoad:
         Publicly expose dnListing
         """
         return self.__dnListing
+    def matchInfo(name):
+        """
+        Method that received dn and matches 
+        """
+        for  dn in self.__dnListing:
+            if name == dn['dn']:
+                return dn
+        return {} 
