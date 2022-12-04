@@ -1,4 +1,5 @@
 import requests
+import json
 
 class BuildAuthReq:
     """
@@ -8,9 +9,15 @@ class BuildAuthReq:
         """
         Constructor
         """
-        self.__authServer = "https://localhost:2443"
-        self.__serial = serial
-        self.__ou = ou
-        self.__sig = sig
-        self.__contentType = "application/json"
-        
+        self.__headers = {'Content-type': 'application/json',}
+        self.__data = self.__buildData(serial,ou,sig)
+    def __buildData(self,serial,ou,sig):
+        """
+        Build data json
+        """
+        return {'serial': serial, 'ou': ou, 'signature': sig}
+    def getData(self):
+        """
+        Publicly Expose Data
+        """
+        return self.__data

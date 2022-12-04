@@ -6,12 +6,11 @@ Description: FrontEnd app that allows x509 authenticated users to view temperatu
 and allows authenticated administrators to update sensor information
 """
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-import ssl
-import sys
 from mod.PreLoad import *
 from datetime import datetime
 from mod.CertIngest import *
 from mod.PrivKeyIngest import *
+from mod.BuildAuthReq import *
 app = Flask(__name__)
 preload = PreLoad()
 dnList = preload.getDNListing()
@@ -36,6 +35,7 @@ def auth():
     key = PrivKeyIngest(current['keypath'],pin)
     hash = cert.getHash()
     signature = key.sign(hash)
-    ou = cert.getOU
-    serial = cert.getSerial
-    return f"{signature}"
+    ou = cert.getOU()
+    serial = cert.getSerial()
+    authReq = BuildAuthReq(serial,ou,signature)
+    return f"{authReq.getData()}"
