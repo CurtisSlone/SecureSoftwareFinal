@@ -5,10 +5,10 @@ import ssl
 
 host_addr = '127.0.0.1'
 host_port = 2443
-server_sni_hostname = 'web.scada.local'
-server_cert = '../../TestCerts/root-ca.crt'
-client_cert = '../../TestCerts/Component/web-scada.crt'
-client_key = '../../TestCerts/Component/web-scada.key'
+server_sni_hostname = 'auth.scada.local'
+server_cert = '../../TestCerts/Component/Auth/auth-scada.crt'
+client_cert = '../../TestCerts/Component/Auth/auth-web.crt'
+client_key = '../../TestCerts/Component/Auth/auth-web.key'
 
 context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH, cafile=server_cert)
 context.load_cert_chain(certfile=client_cert, keyfile=client_key)

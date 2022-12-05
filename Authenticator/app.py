@@ -11,9 +11,9 @@ import ssl
 
 listen_addr = '127.0.0.1'
 listen_port = 2443
-server_cert = '../TestCerts/Component/auth-scada.crt'
-server_key = '../TestCerts/Component/auth-scada.key'
-client_certs = '../TestCerts/Component/clients.crt'
+server_cert = '../TestCerts/Component/Auth/auth-scada.crt'
+server_key = '../TestCerts/Component/Auth/auth-scada.key'
+client_certs = '../TestCerts/Component/Auth/auth-web.crt'
 
 context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
 context.verify_mode = ssl.CERT_REQUIRED
