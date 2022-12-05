@@ -196,6 +196,53 @@ openssl ca \
     -out certs/auth-scada.crt \
     -extensions server_ext
 
+## Gen: Web Client TLS CSR & Key
+openssl req -new \
+    -config etc/client.conf \
+    -out certs/auth-web.csr \
+    -keyout certs/auth-web.key \
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_AUTH/CN=auth.scada.local"
+
+# Web Client CRT
+openssl ca \
+    -batch \
+    -config etc/component-ca.conf \
+    -passin pass:password \
+    -in certs/auth-web.csr \
+    -out certs/auth-web.crt \
+    -extensions client_ext
+
+## Gen: Cert Client TLS CSR & Key
+openssl req -new \
+    -config etc/client.conf \
+    -out certs/auth-cert.csr \
+    -keyout certs/auth-cert.key \
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_AUTH/CN=auth.scada.local"
+
+# Cert Client CRT
+openssl ca \
+    -batch \
+    -config etc/component-ca.conf \
+    -passin pass:password \
+    -in certs/auth-cert.csr \
+    -out certs/auth-cert.crt \
+    -extensions client_ext
+
+## Gen: Data Client TLS CSR & Key
+openssl req -new \
+    -config etc/client.conf \
+    -out certs/auth-data.csr \
+    -keyout certs/auth-data.key \
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_AUTH/CN=auth.scada.local"
+
+# DataClient CRT
+openssl ca \
+    -batch \
+    -config etc/component-ca.conf \
+    -passin pass:password \
+    -in certs/auth-data.csr \
+    -out certs/auth-data.crt \
+    -extensions client_ext
 
 ######
 ## DATA TLS SRV
@@ -216,6 +263,23 @@ openssl ca \
     -in certs/data-scada.csr \
     -out certs/data-scada.crt \
     -extensions server_ext
+
+## Gen: Data Client TLS CSR & Key
+openssl req -new \
+    -config etc/client.conf \
+    -out certs/data-auth.csr \
+    -keyout certs/data-auth.key \
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_DATA/CN=data.scada.local"
+
+# DataClient CRT
+openssl ca \
+    -batch \
+    -config etc/component-ca.conf \
+    -passin pass:password \
+    -in certs/data-auth.csr \
+    -out certs/data-auth.crt \
+    -extensions client_ext
+
 
 ####
 ## DIGITAL ID's
