@@ -41,6 +41,7 @@ def auth():
     ou = cert.getOU()
     serial = cert.getSerial()
     authReq = BuildAuthReq(serial,ou,signature)
+    
     return f"{authReq.getData()}"
 #############
 #### Add TLS
