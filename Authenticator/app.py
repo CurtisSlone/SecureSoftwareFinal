@@ -2,21 +2,46 @@
 File: app.py
 Author: Curtis Slone
 Date: 01 Dec 2022
-Description: Flask App that authenticates x509 digital identities. Uses JWT to manage sessions.
+Description: Server application that authenticates x509 digital identities then sends Flask application JWT token.
 """
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+
+import socket
+from socket import AF_INET, SOCK_STREAM, SO_REUSEADDR, SOL_SOCKET, SHUT_RDWR
 import ssl
-from werkzeug import serving
-app = Flask(__name__)
 
-#################
-### ROUTES ###
-#################
-@app.route('/')
-def home():
-    """Return Homepage"""
-    return "hello"
+listen_addr = '127.0.0.1'
+listen_port = 2443
+server_cert = '../TestCerts/Component/auth-scada.crt'
+server_key = '../TestCerts/Component/auth-scada.key'
+client_certs = '../TestCerts/Component/clients.crt'
 
-context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-context.load_cert_chain("../TestCerts/Component/auth-scada.crt","../TestCerts/Component/auth-scada.key")
-serving.run_simple("0.0.0.0", 2443, app, ssl_context=context)
+context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+context.verify_mode = ssl.CERT_REQUIRED
+context.load_cert_chain(certfile=server_cert, keyfile=server_key)
+context.load_verify_locations(cafile=client_certs)
+
+bindsocket = socket.socket()
+bindsocket.bind((listen_addr, listen_port))
+bindsocket.listen(5)
+
+while True:
+    print("Waiting for client")
+    newsocket, fromaddr = bindsocket.accept()
+    print("Client connected: {}:{}".format(fromaddr[0], fromaddr[1]))
+    conn = context.wrap_socket(newsocket, server_side=True)
+    print("SSL established. Peer: {}".format(conn.getpeercert()))
+    buf = b''  # Buffer to hold received client data
+    try:
+        while True:
+            data = conn.recv(4096)
+            if data:
+                # Client sent us data. Append to buffer
+                buf += data
+            else:
+                # No more data from client. Show buffer and close connection.
+                print("Received:", buf)
+                break
+    finally:
+        print("Closing connection")
+        conn.shutdown(socket.SHUT_RDWR)
+        conn.close()

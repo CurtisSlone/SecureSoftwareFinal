@@ -93,8 +93,10 @@ openssl req -new \
     -out certs/web-scada.csr \
     -keyout certs/web-scada.key \
     -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_WEB/CN=web.scada.local"
-
-# Generate WEB TLS CERT
+######
+## WEB TLS SRV
+#####
+# Generate WEB TLS CERT 
 openssl ca \
     -batch \
     -config ./component-ca.conf \
@@ -103,6 +105,42 @@ openssl ca \
     -out certs/web-scada.crt \
     -extensions server_ext
 
+
+## Gen: Auth Client TLS CSR & Key
+openssl req -new \
+    -config etc/client.conf \
+    -out certs/web-auth.csr \
+    -keyout certs/web-auth.key \
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_WEB/CN=web.scada.local"
+
+# Auth Client CRT
+openssl ca \
+    -batch \
+    -config etc/component-ca.conf \
+    -passin pass:password \
+    -in certs/web-auth.csr \
+    -out certs/web-auth.crt \
+    -extensions client_ext
+
+## Gen: Data Client TLS CSR & Key
+openssl req -new \
+    -config etc/client.conf \
+    -out certs/web-data.csr \
+    -keyout certs/web-data.key \
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_WEB/CN=web.scada.local"
+
+# Data Client CRT
+openssl ca \
+    -batch \
+    -config etc/component-ca.conf \
+    -passin pass:password \
+    -in certs/web-data.csr \
+    -out certs/web-data.crt \
+    -extensions client_ext
+
+######
+## CERT TLS SRV
+#####
 # Generate TLS CSR & Key for CERT
 SAN=DNS:cert.scada.local \
 openssl req -new \
@@ -120,6 +158,27 @@ openssl ca \
     -out certs/cert-scada.crt \
     -extensions server_ext
 
+
+## Gen: Auth Client TLS CSR & Key
+openssl req -new \
+    -config etc/client.conf \
+    -out certs/cert-auth.csr \
+    -keyout certs/cert-auth.key \
+    -subj "/C=US/ST=NC/L=Raleigh/O=SCADA/OU=SCADA_CERT/CN=cert.scada.local"
+
+# Auth Client CRT
+openssl ca \
+    -batch \
+    -config etc/component-ca.conf \
+    -passin pass:password \
+    -in certs/cert-auth.csr \
+    -out certs/cert-auth.crt \
+    -extensions client_ext
+
+
+######
+## AUTH TLS SRV
+#####
 # Generate TLS CSR & Key for AUTH
 SAN=DNS:auth.scada.local \
 openssl req -new \
@@ -137,6 +196,10 @@ openssl ca \
     -out certs/auth-scada.crt \
     -extensions server_ext
 
+
+######
+## DATA TLS SRV
+#####
 # Generate TLS CSR & Key for DATA
 SAN=DNS:data.scada.local \
 openssl req -new \

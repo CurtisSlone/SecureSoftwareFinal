@@ -9,6 +9,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 from mod.PreLoad import PreLoad
 from datetime import datetime
 from werkzeug import serving
+from threading import Thread
 import ssl
 import base64
 from mod.CertIngest import CertIngest
@@ -41,8 +42,7 @@ def auth():
     ou = cert.getOU()
     serial = cert.getSerial()
     authReq = BuildAuthReq(serial,ou,signature)
-    
-    return f"{authReq.getData()}"
+    return f"{authReq}"
 #############
 #### Add TLS
 #############
