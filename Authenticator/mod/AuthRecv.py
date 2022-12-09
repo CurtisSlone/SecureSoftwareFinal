@@ -18,8 +18,9 @@ class AuthRecv:
         self.__context = self.__buildContext()
         self.__bindsocket = self.__buildSocket()
         self.__buffer = b''
+        self.__data = ""
+        self.__status = True
         self.__connect()
-
     def __buildContext(self):
         """
         Build context
@@ -41,16 +42,15 @@ class AuthRecv:
         Open Connection
         """
         self.__bindsocket.listen(5)
-        while True:
+        while self.__status:
             print("Waiting for client")
             newsocket, fromaddr = self.__bindsocket.accept()
             print("Client connected: {}:{}".format(fromaddr[0], fromaddr[1]))
             self.__connection = self.__context.wrap_socket(newsocket, server_side=True)
             self.__listen()
     def __listen(self):
-        print("SSL established. Peer: {}".format(self.__connection.getpeercert()))
         try:
-            while True:
+            while self.__status:
                 data = self.__connection.recv(4096)
                 if data:
                     # Client sent us data. Append to buffer
@@ -58,10 +58,18 @@ class AuthRecv:
                 else:
                     # No more data from client. Show buffer and close connection.
                     print("Received:", self.__buffer)
+                    self.__data = self.__buffer.decode('utf-8')
                     break
         finally:
-            self.__close()
+            self.__status = False
     def __close(self):
         "Kill connection"
         self.__connection.shutdown(socket.SHUT_RDWR)
         self.__connection.close()
+        self.__status = False
+    def exposeData(self):
+        """
+        Publicly Access Data
+        """
+        return self.__data
+    

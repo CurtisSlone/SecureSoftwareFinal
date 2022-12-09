@@ -2,11 +2,11 @@
     "certtrust" : [
         {
             "Serial" : "1",
-            "file" : "/opt/fred-user.crt" 
+            "file" : "../TestCerts/fred-user.crt" 
         },
         {
             "Serial" : "2",
-            "file" : "/opt/fred-adm.crt" 
+            "file" : "../TestCerts/fred-adm.crt" 
         }
     ]
 }

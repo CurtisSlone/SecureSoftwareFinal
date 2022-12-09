@@ -9,12 +9,11 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 from mod.PreLoad import PreLoad
 from datetime import datetime
 from werkzeug import serving
-from threading import Thread
 import ssl
 import base64
 from mod.CertIngest import CertIngest
 from mod.PrivKeyIngest import PrivKeyIngest
-from mod.BuildAuthReq import BuildAuthReq
+from mod.AuthReq import AuthReq
 app = Flask(__name__)
 preload = PreLoad()
 dnList = preload.getDNListing()
@@ -41,11 +40,12 @@ def auth():
     signature = base64.b64encode(key.sign(hash))
     ou = cert.getOU()
     serial = cert.getSerial()
-    authReq = BuildAuthReq(serial,ou,signature)
-    return f"{authReq}"
+    authReq = AuthReq(str(serial),ou,signature.decode('UTf-8'))
+    del authReq
+    return f"N/A"
 #############
 #### Add TLS
 #############
 context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-context.load_cert_chain("../TestCerts/Component/web-scada.crt","../TestCerts/Component/web-scada.key")
+context.load_cert_chain("./certs/web-scada.crt","./certs/web-scada.key")
 serving.run_simple("0.0.0.0", 1443, app, ssl_context=context)

@@ -11,13 +11,13 @@ class PreLoad:
         self.__dnListing = [
             {
                 "dn": "fred-adm",
-                "certpath": "../TestCerts/User/fred-adm.crt",
-                "keypath": "../TestCerts/User/fred-adm.key"
+                "certpath": "../TestCerts/fred-adm.crt",
+                "keypath": "../TestCerts/fred-adm.key"
             },
             {
                 "dn": "fred-user",
-                "certpath": "../TestCerts/User/fred-user.crt",
-                "keypath": "../TestCerts/User/fred-user.key"
+                "certpath": "../TestCerts/fred-user.crt",
+                "keypath": "../TestCerts/fred-user.key"
             }
         ]
     def getDNListing(self):

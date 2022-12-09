@@ -1,11 +1,12 @@
 import socket
 import ssl
+import json
 
 class AuthReq:
     """
     Client to authorization server
     """
-    def __init__(self):
+    def __init__(self,serial,ou,sig):
         """
         Constructor
         """
@@ -16,6 +17,11 @@ class AuthReq:
         self.__client_cert = './certs/web-scada.crt'
         self.__client_key = './certs/web-scada.key'
         self.__connection = self.__buildConnection()
+        self.__data = self.__buildAuth(serial,ou,sig)
+        self.__connect()
+        self.__send(str.encode(self.__data))
+        self.__close()
+
     def __buildConnection(self):
         """
         Init connection
@@ -24,18 +30,23 @@ class AuthReq:
         context.load_cert_chain(certfile=self.__client_cert, keyfile=self.__client_key)
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         return context.wrap_socket(s, server_side=False, server_hostname=self.__server_sni_hostname)
-    def connect(self):
+    def __connect(self):
         """
         Connect
         """
         self.__connection.connect((self.__host_addr, self.__host_port))
-    def send(self):
+    def __send(self,data):
         """
         send
         """
-        self.__connection.send(b"Test data")
-    def close(self):
+        self.__connection.send(bytes(data))
+    def __close(self):
         """
         Close Connection
         """
         self.__connection.close()
+    def __buildAuth(self,serial,ou,sig):
+        """
+        Build Authorization JSON
+        """
+        return json.dumps({"serial":serial,"ou":ou,"signature":sig})
