@@ -1,5 +1,6 @@
 from mod.AuthRecv import AuthRecv
+from mod.CertRecv import CertRecv
 while True:
-    rec = AuthRecv()
-    print(rec.exposeData())
-    del rec
+    authRecv = AuthRecv()
+    certRecv = CertRecv()
+    del authRecv

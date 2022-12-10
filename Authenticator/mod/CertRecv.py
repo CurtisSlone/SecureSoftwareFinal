@@ -3,16 +3,16 @@ from socket import AF_INET, SOCK_STREAM, SO_REUSEADDR, SOL_SOCKET, SHUT_RDWR
 import ssl
 from mod.ProxyAuth import ProxyAuth
 
-class AuthRecv:
+class CertRecv:
     """
-    Authenticator Server receive creds from FrontEnd
+    Authenticator Server receive validation from Certtrust
     """
     def __init__(self):
         """
         Constructor
         """
         self.__listen_addr = '127.0.0.1'
-        self.__listen_port = 2443
+        self.__listen_port = 4443
         self.__server_cert = './certs/auth-scada.crt'
         self.__server_key = './certs/auth-scada.key'
         self.__client_certs = './certs/clients.crt'
