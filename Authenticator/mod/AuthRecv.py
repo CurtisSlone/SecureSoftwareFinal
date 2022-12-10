@@ -12,9 +12,9 @@ class AuthRecv:
         """
         self.__listen_addr = '127.0.0.1'
         self.__listen_port = 2443
-        self.__server_cert = './auth-scada.crt'
-        self.__server_key = './auth-scada.key'
-        self.__client_certs = './clients.crt'
+        self.__server_cert = './certs/auth-scada.crt'
+        self.__server_key = './certs/auth-scada.key'
+        self.__client_certs = './certs/clients.crt'
         self.__context = self.__buildContext()
         self.__bindsocket = self.__buildSocket()
         self.__buffer = b''

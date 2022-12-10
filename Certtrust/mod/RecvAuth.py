@@ -2,9 +2,10 @@ import socket
 from socket import AF_INET, SOCK_STREAM, SO_REUSEADDR, SOL_SOCKET, SHUT_RDWR
 import ssl
 
-class AuthRecv:
+class RecvAuth:
     """
     Receive Proxied Authenticator Information
+    Based on TLSRes
     """
     def __init__(self):
         """
@@ -12,9 +13,9 @@ class AuthRecv:
         """
         self.__listen_addr = '127.0.0.1'
         self.__listen_port = 3443
-        self.__server_cert = './auth-scada.crt'
-        self.__server_key = './auth-scada.key'
-        self.__client_certs = './clients.crt'
+        self.__server_cert = './certs/cert-scada.crt' 
+        self.__server_key = './certs/cert-scada.key'
+        self.__client_certs = './certs/clients.crt'
         self.__context = self.__buildContext()
         self.__bindsocket = self.__buildSocket()
         self.__buffer = b''
@@ -67,7 +68,7 @@ class AuthRecv:
         self.__connection.shutdown(socket.SHUT_RDWR)
         self.__connection.close()
         self.__status = False
-    def exposeData(self):
+    def exposeData(self): #For testing only
         """
         Publicly Access Data
         """
