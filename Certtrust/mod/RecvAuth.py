@@ -1,6 +1,7 @@
 import socket
 from socket import AF_INET, SOCK_STREAM, SO_REUSEADDR, SOL_SOCKET, SHUT_RDWR
 import ssl
+from mod.ProcessAuth import ProcessAuth
 
 class RecvAuth:
     """
@@ -62,6 +63,8 @@ class RecvAuth:
                     self.__data = self.__buffer.decode('utf-8')
                     break
         finally:
+            proc = ProcessAuth(self.__data)
+            proc.testSig()
             self.__status = False
     def __close(self):
         "Kill connection"
