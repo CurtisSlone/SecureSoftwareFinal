@@ -3,8 +3,6 @@ import base64
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
-import os
-
 class CertIngest:
     """
     Public Cert Object that hashes base64 encoding of Certificate binary, encrypts data using the public key, and exposes the certificate hash
@@ -17,7 +15,6 @@ class CertIngest:
     def __setCertObj(self):
         """
         """
-        print(os.getcwd())
         return x509.load_pem_x509_certificate(open(self.__crtpath,'rb').read())
     def __cert2hash(self):
         """

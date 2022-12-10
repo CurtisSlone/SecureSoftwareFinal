@@ -3,6 +3,7 @@
 import json
 from mod.CertIngest import CertIngest
 import base64
+from cryptography.exceptions import InvalidSignature
 class ProcessAuth:
     """
     Process auth JSON for user authentication
@@ -18,7 +19,6 @@ class ProcessAuth:
         self.__matchedCert = CertIngest(self.__matchedCertFile)
         self.__matched = False
         self.__validateSig()
-        print(self.isMatched())
     def __getJSONSerial(self,jsonObj):
         """
         Get Serial from JSON
@@ -44,7 +44,6 @@ class ProcessAuth:
                 """
                 Parse for comparison
                 """
-                print(self.__reqSerial)
                 if cert["serial"] == self.__reqSerial:
                     return cert["file"]
     def __validateSig(self):
@@ -53,8 +52,14 @@ class ProcessAuth:
         """
         sig = base64.b64decode(self.__reqSig)
         message = self.__matchedCert.getHash().encode()
-        if isinstance(self.__matchedCert.verifySig(sig,message),None):
+        try:
+            self.__matchedCert.verifySig(sig,message)
+        except InvalidSignature:
+            return "Invalid signature"
+        else:
             self.__matched = True
+        finally:
+            return "complete"
     def isMatched(self):
         """
         Share matched

@@ -64,7 +64,6 @@ class RecvAuth:
                     break
         finally:
             proc = ProcessAuth(self.__data)
-            proc.testSig()
             self.__status = False
     def __close(self):
         "Kill connection"
