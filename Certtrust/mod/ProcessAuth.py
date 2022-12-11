@@ -18,7 +18,7 @@ class ProcessAuth:
         self.__reqSig = self.__getJSONSig(self.__json)
         self.__matchedCertFile = self.__locateMatch()
         self.__matchedCert = CertIngest(self.__matchedCertFile)
-        self.__matched = False
+        self.__matched = "False"
         self.__validateSig()
     def __getJSONSerial(self,jsonObj):
         """
@@ -58,12 +58,11 @@ class ProcessAuth:
         except InvalidSignature:
             return "Invalid signature"
         else:
-            self.__matched = True
+            self.__matched = "True"
             print("matched, sending to auth")
-            idConfirmed = TLSReq(4443,'auth.scada.local','./certs/auth-scada.crt','./certs/cert-scada.crt','./certs/cert-scada.key',str.encode(self.isMatched()))
-            del idConfirmed
         finally:
-            return "complete"
+            data = json.dumps({"matched": self.isMatched()})
+            return TLSReq(4443,'auth.scada.local','./certs/auth-scada.crt','./certs/cert-scada.crt','./certs/cert-scada.key',data,'Certtrust')
     def isMatched(self):
         """
         Share matched

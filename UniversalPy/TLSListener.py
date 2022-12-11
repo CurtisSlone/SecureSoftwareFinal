@@ -61,9 +61,9 @@ class TLSListener:
                     break
                 
         finally:
+            print(self.__data)
             absFunc = self.listenerFunction()
             del absFunc
-            self.__status = False
     def __close(self):
         """
         Kill connection

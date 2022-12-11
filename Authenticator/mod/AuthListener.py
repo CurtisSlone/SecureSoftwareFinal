@@ -14,5 +14,9 @@ class AuthListener(TLSListener):
         Function unique to each TLS Listener instance
         """
         requestIdentity, incomingRequest = self.parseReq()
-        return TLSReq(3443,'cert.scada.local','./certs/cert-scada.crt','./certs/auth-scada.crt','./certs/auth-scada.key',self.exposeData(),'Authenticator')
+        if requestIdentity == "FrontEnd":
+            print(requestIdentity)
+            return TLSReq(3443,'cert.scada.local','./certs/cert-scada.crt','./certs/auth-scada.crt','./certs/auth-scada.key',self.exposeData(),'Authenticator')
+        elif requestIdentity == 'Certtrust':
+            print(requestIdentity)
     

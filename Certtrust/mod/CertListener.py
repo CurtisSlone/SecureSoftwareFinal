@@ -1,5 +1,6 @@
 from mod.TLSListener import TLSListener
 from mod.ProcessAuth import ProcessAuth
+import json
 
 class CertListener(TLSListener):
     """
@@ -10,11 +11,10 @@ class CertListener(TLSListener):
         """
         Constructor
         """
-        self.__requestIdentity, self.__incomingRequest = self.parseReq()
         super().__init__(3443,'./certs/cert-scada.crt','./certs/cert-scada.key','./certs/clients.crt')
-    def __listenerFunction(self):
+    def listenerFunction(self):
         """
         Function unique to each TLS Listener instance
         """
         requestIdentity, incomingRequest = self.parseReq()
-        return ProcessAuth(self.exposeData())
+        return ProcessAuth(json.dumps(incomingRequest['req']))
