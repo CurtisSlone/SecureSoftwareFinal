@@ -6,8 +6,6 @@ Description: FrontEnd app that allows x509 authenticated users to view temperatu
 and allows authenticated administrators to update sensor information
 """
 import ssl
-import base64
-import json
 from flask import Flask, render_template, request, jsonify
 from extras.PreLoad import PreLoad
 from datetime import datetime
@@ -46,18 +44,18 @@ def auth():
         """
         Create User Model for authentication
         """
-        current = UserModel(dn,userObject.shareOU())
+        current = UserModel(userObject.shareSerial(),dn,userObject.shareOU())
         login_user(current)
-    return jsonify({'success': "Authenticated."})
+    return redirect(url_for('home'))
 #################
 ## USER LOADER ##
 #################
 @login_manager.user_loader
-def load_user(userObject):
+def load_user(userModel):
     """
     
     """
-    return userObject
+    return userModel
 #############
 #### Add TLS
 #############

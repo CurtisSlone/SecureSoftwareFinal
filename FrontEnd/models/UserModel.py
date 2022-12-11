@@ -3,9 +3,10 @@ class UserModel(UserMixin):
     """
     
     """
-    def __init__(self,dn,ou):
+    def __init__(self,serial,dn,ou):
         """
         Constructor
         """
+        id = serial
         distinguishedName = dn
         organizationalUnit = ou
