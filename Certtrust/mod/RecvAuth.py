@@ -11,8 +11,8 @@ class RecvAuth(TLSListener):
         Constructor
         """
         TLSListener.__init__(self,3443,'./certs/cert-scada.crt','./certs/cert-scada.key','./certs/clients.crt')
-    def __listenerFunction(self):
+    def listenerFunction(self):
         """
         Function unique to each TLS Listener instance
         """
-        return ProcessAuth(self.__data)
+        return ProcessAuth(self.exposeData())

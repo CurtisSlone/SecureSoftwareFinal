@@ -1,9 +1,9 @@
 """
 """
 import json
-import sys
 import base64
 from cryptography.exceptions import InvalidSignature
+from mod.CertIngest import CertIngest
 class ProcessAuth:
     """
     Process auth JSON for user authentication

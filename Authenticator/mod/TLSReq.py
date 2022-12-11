@@ -20,7 +20,6 @@ class TLSReq:
         self.__connect()
         self.__send(str.encode(self.__data))
         self.__close()
-
     def __buildConnection(self):
         """
         Init connection
