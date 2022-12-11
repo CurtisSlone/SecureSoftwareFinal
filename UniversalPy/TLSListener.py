@@ -59,12 +59,11 @@ class TLSListener:
                     # No more data from client. Show buffer and close connection.
                     self.__data = self.__buffer.decode('utf-8')
                     break
+                
         finally:
-            self.__requestIdenity, self.__incomingRequest = self.__parseReq()
-            absFunc = self.__listenerFunction()
+            absFunc = self.listenerFunction()
             del absFunc
-            self.__data = ""
-            self.__buffer = ""
+            self.__status = False
     def __close(self):
         """
         Kill connection
@@ -80,7 +79,7 @@ class TLSListener:
         Publicly Access Data
         """
         return self.__data
-    def __parseReq(self):
+    def parseReq(self):
         """
         Parse request to determine response
         """
@@ -90,7 +89,7 @@ class TLSListener:
     #### Abstract Methods
     ############################
     @abstractmethod
-    def __listenerFunction(self):
+    def listenerFunction(self):
         """
         Function unique to each TLS Listener instance
         """

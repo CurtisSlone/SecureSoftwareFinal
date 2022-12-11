@@ -8,11 +8,11 @@ class AuthListener(TLSListener):
         """
         Constructor
         """
-        TLSListener.__init__(self,2443,'./certs/auth-scada.crt','./certs/auth-scada.key','./certs/clients.crt')
-    def __listenerFunction(self):
+        super().__init__(2443,'./certs/auth-scada.crt','./certs/auth-scada.key','./certs/clients.crt')
+    def listenerFunction(self):
         """
         Function unique to each TLS Listener instance
         """
-        print("received creds, forwarding")
-        # return TLSReq(3443,'cert.scada.local','./certs/cert-scada.crt','./certs/auth-scada.crt','./certs/auth-scada.key',self.exposeData(),'Authenticator')
+        requestIdentity, incomingRequest = self.parseReq()
+        return TLSReq(3443,'cert.scada.local','./certs/cert-scada.crt','./certs/auth-scada.crt','./certs/auth-scada.key',self.exposeData(),'Authenticator')
     

@@ -40,6 +40,7 @@ class TLSReq:
         """
         send
         """
+        print(data)
         self.__connection.send(bytes(data))
     def __close(self):
         """

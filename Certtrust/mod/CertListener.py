@@ -10,9 +10,11 @@ class CertListener(TLSListener):
         """
         Constructor
         """
-        TLSListener.__init__(self,3443,'./certs/cert-scada.crt','./certs/cert-scada.key','./certs/clients.crt')
+        self.__requestIdentity, self.__incomingRequest = self.parseReq()
+        super().__init__(3443,'./certs/cert-scada.crt','./certs/cert-scada.key','./certs/clients.crt')
     def __listenerFunction(self):
         """
         Function unique to each TLS Listener instance
         """
+        requestIdentity, incomingRequest = self.parseReq()
         return ProcessAuth(self.exposeData())
