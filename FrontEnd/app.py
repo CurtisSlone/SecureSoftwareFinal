@@ -44,8 +44,7 @@ def auth():
     sig = base64.b64encode(key.sign(cert.getHash()))
     ou = cert.getOU()
     serial = cert.getSerial()
-    data = json.dumps({"serial":str(serial),"ou":ou,"signature":sig.decode('UTf-8')})
-    auth = TLSReq(2443,'auth.scada.local','./certs/auth-scada.crt','./certs/web-scada.crt','./certs/web-scada.key',data,'FrontEnd')
+    
     return f"N/A"
 #############
 #### Add TLS
