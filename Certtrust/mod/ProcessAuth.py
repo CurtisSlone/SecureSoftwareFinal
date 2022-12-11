@@ -4,6 +4,7 @@ import json
 import base64
 from cryptography.exceptions import InvalidSignature
 from mod.CertIngest import CertIngest
+from mod.TLSReq import TLSReq
 class ProcessAuth:
     """
     Process auth JSON for user authentication
@@ -58,6 +59,9 @@ class ProcessAuth:
             return "Invalid signature"
         else:
             self.__matched = True
+            print("matched, sending to auth")
+            idConfirmed = TLSReq(4443,'auth.scada.local','./certs/auth-scada.crt','./certs/cert-scada.crt','./certs/cert-scada.key',str.encode(self.isMatched()))
+            del idConfirmed
         finally:
             return "complete"
     def isMatched(self):

@@ -43,7 +43,7 @@ class TLSListener:
         """
         self.__bindsocket.listen(5)
         while self.__status:
-            print("Waiting for client")
+            print("Waiting for client on port: "+str(self.__listen_port))
             newsocket, fromaddr = self.__bindsocket.accept()
             self.__connection = self.__context.wrap_socket(newsocket, server_side=True)
             self.__listen()
@@ -60,12 +60,20 @@ class TLSListener:
                     break
         finally:
             absFunc = self.listenerFunction()
-            self.__status = False
+            del absFunc
+            self.__close()
+    def __close(self):
+        "Kill connection"
+        self.__status = False
+        try:
+            self.__connection.shutdown(socket.SHUT_RDWR)
+            self.__connection.close()
+        except OSError:
+            print("Connection Closed")
     def exposeData(self):
         """
         Publicly Access Data
         """
-        print(self.__data)
         return self.__data
     @abstractmethod
     def listenerFunction(self):
