@@ -1,6 +1,6 @@
 from mod.TLSReq import TLSReq
 from mod.TLSListener import TLSListener
-class AuthRecv(TLSListener):
+class AuthListener(TLSListener):
     """
     Authenticator Server receive creds from FrontEnd
     """
@@ -9,10 +9,10 @@ class AuthRecv(TLSListener):
         Constructor
         """
         TLSListener.__init__(self,2443,'./certs/auth-scada.crt','./certs/auth-scada.key','./certs/clients.crt')
-    def listenerFunction(self):
+    def __listenerFunction(self):
         """
         Function unique to each TLS Listener instance
         """
         print("received creds, forwarding")
-        return TLSReq(3443,'cert.scada.local','./certs/cert-scada.crt','./certs/auth-scada.crt','./certs/auth-scada.key',self.exposeData())
+        # return TLSReq(3443,'cert.scada.local','./certs/cert-scada.crt','./certs/auth-scada.crt','./certs/auth-scada.key',self.exposeData(),'Authenticator')
     

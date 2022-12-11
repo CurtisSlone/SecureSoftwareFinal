@@ -1,11 +1,12 @@
 import socket
 import ssl
+import json
 
 class TLSReq:
     """
     Client to authorization server
     """
-    def __init__(self,port,host,serverCert,clientCert,clientKey,data):
+    def __init__(self,port,host,serverCert,clientCert,clientKey,data,identity):
         """
         Constructor
         """
@@ -15,10 +16,11 @@ class TLSReq:
         self.__server_cert = serverCert 
         self.__client_cert = clientCert 
         self.__client_key = clientKey 
+        self.__identity = identity
         self.__connection = self.__buildConnection()
-        self.__data = data 
+        self.__data = data
         self.__connect()
-        self.__send(str.encode(self.__data))
+        self.__send(str.encode(self.__buildReq()))
         self.__close()
 
     def __buildConnection(self):
@@ -44,3 +46,12 @@ class TLSReq:
         Close Connection
         """
         self.__connection.close()
+    def __buildReq(self):
+        """
+        Build request 
+        """
+        req = json.loads(self.__data)
+        return json.dumps({
+            "identity": self.__identity,
+            "req": req
+            })

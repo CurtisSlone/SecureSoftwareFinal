@@ -2,6 +2,7 @@ import socket
 from socket import AF_INET, SOCK_STREAM, SO_REUSEADDR, SOL_SOCKET, SHUT_RDWR
 import ssl
 from abc import abstractmethod
+import json
 class TLSListener:
     """
     Authenticator Server receive creds from FrontEnd
@@ -59,11 +60,15 @@ class TLSListener:
                     self.__data = self.__buffer.decode('utf-8')
                     break
         finally:
-            absFunc = self.listenerFunction()
+            self.__requestIdenity, self.__incomingRequest = self.__parseReq()
+            absFunc = self.__listenerFunction()
             del absFunc
-            self.__close()
+            self.__data = ""
+            self.__buffer = ""
     def __close(self):
-        "Kill connection"
+        """
+        Kill connection
+        """
         self.__status = False
         try:
             self.__connection.shutdown(socket.SHUT_RDWR)
@@ -75,8 +80,17 @@ class TLSListener:
         Publicly Access Data
         """
         return self.__data
+    def __parseReq(self):
+        """
+        Parse request to determine response
+        """
+        request = json.loads(self.__data)
+        return request["identity"], request["req"]
+    ############################
+    #### Abstract Methods
+    ############################
     @abstractmethod
-    def listenerFunction(self):
+    def __listenerFunction(self):
         """
         Function unique to each TLS Listener instance
         """

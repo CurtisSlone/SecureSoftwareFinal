@@ -1,7 +1,7 @@
 from mod.TLSListener import TLSListener
 from mod.ProcessAuth import ProcessAuth
 
-class RecvAuth(TLSListener):
+class CertListener(TLSListener):
     """
     Receive Proxied Authenticator Information
     Inherits from TLSListener
@@ -11,7 +11,7 @@ class RecvAuth(TLSListener):
         Constructor
         """
         TLSListener.__init__(self,3443,'./certs/cert-scada.crt','./certs/cert-scada.key','./certs/clients.crt')
-    def listenerFunction(self):
+    def __listenerFunction(self):
         """
         Function unique to each TLS Listener instance
         """

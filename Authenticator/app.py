@@ -1,8 +1,4 @@
-from mod.AuthRecv import AuthRecv
-from mod.CertValid import CertValid
+from mod.AuthListener import AuthListener
 while True:
-    authRecv = AuthRecv()
-    tmp = authRecv.exposeData()
-    del authRecv
-    certValid = CertValid(tmp)
-    del certValid
+    listener = AuthListener()
+    del listener

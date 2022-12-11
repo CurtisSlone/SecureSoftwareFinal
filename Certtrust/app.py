@@ -1,4 +1,4 @@
-from mod.RecvAuth import RecvAuth
+from mod.CertListener import CertListener
 while True:
-    recv = RecvAuth()
-    del recv
+    listener = CertListener()
+    del listener
