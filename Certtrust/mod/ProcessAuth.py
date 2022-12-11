@@ -1,7 +1,7 @@
 """
 """
 import json
-from mod.CertIngest import CertIngest
+import sys
 import base64
 from cryptography.exceptions import InvalidSignature
 class ProcessAuth:

@@ -1,10 +1,8 @@
 import hashlib
 import base64
 from cryptography import x509
-from cryptography.x509.oid import NameOID
-from cryptography.hazmat.primitives import serialization, hashes
-from cryptography.hazmat.primitives.asymmetric import rsa,padding
-
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding
 class CertIngest:
     """
     Public Cert Object that hashes base64 encoding of Certificate binary, encrypts data using the public key, and exposes the certificate hash
@@ -48,3 +46,9 @@ class CertIngest:
         Expose Serial
         """
         return self.__crtobj.serial_number
+    def verifySig(self,sig,message):
+        """
+        Validate digital signature
+        """
+        return self.__publicKey.verify(sig,message,padding.PSS(mgf=padding.MGF1(hashes.SHA256()),salt_length=padding.PSS.MAX_LENGTH),hashes.SHA256()
+        )

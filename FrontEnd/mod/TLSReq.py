@@ -1,23 +1,22 @@
 import socket
 import ssl
-import json
 
-class AuthReq:
+class TLSReq:
     """
     Client to authorization server
     """
-    def __init__(self,serial,ou,sig):
+    def __init__(self,port,host,serverCert,clientCert,clientKey,data):
         """
         Constructor
         """
         self.__host_addr = '127.0.0.1'
-        self.__host_port = 2443
-        self.__server_sni_hostname = 'auth.scada.local'
-        self.__server_cert = './certs/auth-scada.crt'
-        self.__client_cert = './certs/web-scada.crt'
-        self.__client_key = './certs/web-scada.key'
+        self.__host_port = port 
+        self.__server_sni_hostname = host 
+        self.__server_cert = serverCert 
+        self.__client_cert = clientCert 
+        self.__client_key = clientKey 
         self.__connection = self.__buildConnection()
-        self.__data = self.__buildAuth(serial,ou,sig)
+        self.__data = data 
         self.__connect()
         self.__send(str.encode(self.__data))
         self.__close()
@@ -45,8 +44,3 @@ class AuthReq:
         Close Connection
         """
         self.__connection.close()
-    def __buildAuth(self,serial,ou,sig):
-        """
-        Build Authorization JSON
-        """
-        return json.dumps({"serial":serial,"ou":ou,"signature":sig})

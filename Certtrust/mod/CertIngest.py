@@ -36,6 +36,16 @@ class CertIngest:
         Encrypt bytes
         """
         return self.__publicKey.encrypt(data,padding.OAEP(mgf=padding.MGF1(algorithm=hashes.SHA256()),algorithm=hashes.SHA256(),label=None))
+    def getOU(self):
+        """
+        Expose Cert OUT
+        """
+        return self.__crtobj.subject.rfc4514_string().split(',')[1].split('=')[1]
+    def getSerial(self):
+        """
+        Expose Serial
+        """
+        return self.__crtobj.serial_number
     def verifySig(self,sig,message):
         """
         Validate digital signature

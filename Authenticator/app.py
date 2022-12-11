@@ -3,4 +3,4 @@ from mod.CertRecv import CertRecv
 while True:
     authRecv = AuthRecv()
     certRecv = CertRecv()
-    del authRecv
+    del authRecv 

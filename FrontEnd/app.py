@@ -11,9 +11,14 @@ from datetime import datetime
 from werkzeug import serving
 import ssl
 import base64
+from mod.PreLoad import PreLoad
 from mod.CertIngest import CertIngest
 from mod.PrivKeyIngest import PrivKeyIngest
-from mod.AuthReq import AuthReq
+from mod.TLSReq import TLSReq
+import json
+####################
+### App Declarations
+####################
 app = Flask(__name__)
 preload = PreLoad()
 dnList = preload.getDNListing()
@@ -36,12 +41,12 @@ def auth():
     current = preload.matchInfo(dn)
     cert = CertIngest(current['certpath'])
     key = PrivKeyIngest(current['keypath'],pin)
-    hash = cert.getHash()
-    signature = base64.b64encode(key.sign(hash))
+    sig = base64.b64encode(key.sign(cert.getHash()))
     ou = cert.getOU()
     serial = cert.getSerial()
-    authReq = AuthReq(str(serial),ou,signature.decode('UTf-8'))
-    del authReq
+    data = json.dumps({"serial":str(serial),"ou":ou,"signature":sig.decode('UTf-8')})
+    authReq = TLSReq(2443,'auth.scada.local','./certs/auth-scada.crt','./certs/web-scada.crt','./certs/web-scada.key',data)
+    
     return f"N/A"
 #############
 #### Add TLS

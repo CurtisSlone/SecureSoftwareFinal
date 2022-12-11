@@ -6,15 +6,15 @@ class AuthRecv:
     """
     Authenticator Server receive creds from FrontEnd
     """
-    def __init__(self):
+    def __init__(self,port,serverCert,serverKey,clientsCrt):
         """
         Constructor
         """
         self.__listen_addr = '127.0.0.1' 
-        self.__listen_port = 2443 #Change based on process
-        self.__server_cert = './auth-scada.crt'#Change based on process
-        self.__server_key = './auth-scada.key'#Change based on process
-        self.__client_certs = './clients.crt'#Change based on process
+        self.__listen_port = port 
+        self.__server_cert = serverCert
+        self.__server_key = serverKey
+        self.__client_certs = clientsCrt
         self.__context = self.__buildContext()
         self.__bindsocket = self.__buildSocket()
         self.__buffer = b''
@@ -45,7 +45,6 @@ class AuthRecv:
         while self.__status:
             print("Waiting for client")
             newsocket, fromaddr = self.__bindsocket.accept()
-            print("Client connected: {}:{}".format(fromaddr[0], fromaddr[1]))
             self.__connection = self.__context.wrap_socket(newsocket, server_side=True)
             self.__listen()
     def __listen(self):
@@ -57,7 +56,6 @@ class AuthRecv:
                     self.__buffer += data
                 else:
                     # No more data from client. Show buffer and close connection.
-                    print("Received:", self.__buffer)
                     self.__data = self.__buffer.decode('utf-8')
                     break
         finally:

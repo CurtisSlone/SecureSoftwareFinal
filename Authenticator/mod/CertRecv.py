@@ -69,9 +69,3 @@ class CertRecv:
         self.__connection.shutdown(socket.SHUT_RDWR)
         self.__connection.close()
         self.__status = False
-    def exposeData(self):
-        """
-        Publicly Access Data
-        """
-        return self.__data
-    
