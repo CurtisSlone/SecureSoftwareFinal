@@ -5,21 +5,23 @@ Date: 11 Nov 2022
 Description: FrontEnd app that allows x509 authenticated users to view temperature and humidity data ingested from various industrial sensors 
 and allows authenticated administrators to update sensor information
 """
-from flask import Flask, render_template, request, jsonify, redirect, url_for
-from mod.PreLoad import PreLoad
-from datetime import datetime
-from werkzeug import serving
 import ssl
 import base64
-from mod.PreLoad import PreLoad
-from mod.CertIngest import CertIngest
-from mod.PrivKeyIngest import PrivKeyIngest
-from mod.TLSReq import TLSReq
 import json
+from flask import Flask, render_template, request, jsonify
+from extras.PreLoad import PreLoad
+from datetime import datetime
+from werkzeug import serving
+from extras.UserIngest import UserIngest
+from flask_login import LoginManager, login_required, current_user, login_user, logout_user, UserMixin
+from models.UserModel import UserModel
 ####################
 ### App Declarations
 ####################
 app = Flask(__name__)
+app.secret_key = "SECRET"
+login_manager = LoginManager()
+login_manager.init_app(app)
 preload = PreLoad()
 dnList = preload.getDNListing()
 #################
@@ -39,13 +41,23 @@ def auth():
     dn = request.form['selected-user']
     pin = request.form['pin']
     current = preload.matchInfo(dn)
-    cert = CertIngest(current['certpath'])
-    key = PrivKeyIngest(current['keypath'],pin)
-    sig = base64.b64encode(key.sign(cert.getHash()))
-    ou = cert.getOU()
-    serial = cert.getSerial()
+    userObject = UserIngest(current['certpath'],current['keypath'],pin)
+    if userObject.isUnlocked():
+        """
+        Create User Model for authentication
+        """
+        current = UserModel(dn,userObject.shareOU())
+        login_user(current)
+    return jsonify({'success': "Authenticated."})
+#################
+## USER LOADER ##
+#################
+@login_manager.user_loader
+def load_user(userObject):
+    """
     
-    return f"N/A"
+    """
+    return userObject
 #############
 #### Add TLS
 #############
