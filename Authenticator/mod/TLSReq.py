@@ -1,23 +1,22 @@
 import socket
 import ssl
 
-class ProxyAuth:
+class TLSReq:
     """
-    Proxy Authentication Information to Certtrust for verification
-    Based on TLSReq
+    Client to authorization server
     """
-    def __init__(self,authJson): #Pass JSON through socket
+    def __init__(self,port,host,serverCert,clientCert,clientKey,data):
         """
         Constructor
         """
         self.__host_addr = '127.0.0.1'
-        self.__host_port = 3443 #Connect to Certtrust Listener
-        self.__server_sni_hostname = 'cert.scada.local' 
-        self.__server_cert = './certs/cert-scada.crt' 
-        self.__client_cert = './certs/auth-scada.crt' 
-        self.__client_key = './certs/auth-scada.key' 
+        self.__host_port = port 
+        self.__server_sni_hostname = host 
+        self.__server_cert = serverCert 
+        self.__client_cert = clientCert 
+        self.__client_key = clientKey 
         self.__connection = self.__buildConnection()
-        self.__data = authJson 
+        self.__data = data 
         self.__connect()
         self.__send(str.encode(self.__data))
         self.__close()

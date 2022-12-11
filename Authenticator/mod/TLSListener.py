@@ -1,21 +1,20 @@
 import socket
 from socket import AF_INET, SOCK_STREAM, SO_REUSEADDR, SOL_SOCKET, SHUT_RDWR
 import ssl
-from mod.ProxyAuth import ProxyAuth
 
-class CertRecv:
+class TLSListener:
     """
-    Authenticator Server receive validation from Certtrust
+    Authenticator Server receive creds from FrontEnd
     """
-    def __init__(self):
+    def __init__(self,port,serverCert,serverKey,clientsCrt):
         """
         Constructor
         """
-        self.__listen_addr = '127.0.0.1'
-        self.__listen_port = 4443
-        self.__server_cert = './certs/auth-scada.crt'
-        self.__server_key = './certs/auth-scada.key'
-        self.__client_certs = './certs/clients.crt'
+        self.__listen_addr = '127.0.0.1' 
+        self.__listen_port = port 
+        self.__server_cert = serverCert
+        self.__server_key = serverKey
+        self.__client_certs = clientsCrt
         self.__context = self.__buildContext()
         self.__bindsocket = self.__buildSocket()
         self.__buffer = b''
@@ -46,7 +45,6 @@ class CertRecv:
         while self.__status:
             print("Waiting for client")
             newsocket, fromaddr = self.__bindsocket.accept()
-            print("Client connected: {}:{}".format(fromaddr[0], fromaddr[1]))
             self.__connection = self.__context.wrap_socket(newsocket, server_side=True)
             self.__listen()
     def __listen(self):
@@ -58,14 +56,23 @@ class CertRecv:
                     self.__buffer += data
                 else:
                     # No more data from client. Show buffer and close connection.
-                    print("Received:", self.__buffer)
                     self.__data = self.__buffer.decode('utf-8')
                     break
         finally:
-            proxy = ProxyAuth(self.__data)
+            absFunc = self.__listenerFunction()
             self.__status = False
     def __close(self):
         "Kill connection"
         self.__connection.shutdown(socket.SHUT_RDWR)
         self.__connection.close()
         self.__status = False
+    def exposeData(self):
+        """
+        Publicly Access Data
+        """
+        return self.__data
+    @abstractmethod
+    def __listenerFunction(self):
+        """
+        Function unique to each TLS Listener instance
+        """
