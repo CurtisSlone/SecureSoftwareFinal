@@ -1,0 +1,31 @@
+Run started:2022-12-12 19:44:47.934280
+
+Test results:
+>> Issue: [B324:hashlib] Use of weak MD4, MD5, or SHA1 hash for security. Consider usedforsecurity=False
+   Severity: High   Confidence: High
+   CWE: CWE-327 (https://cwe.mitre.org/data/definitions/327.html)
+   Location: CertIngest.py:23:19
+   More Info: https://bandit.readthedocs.io/en/1.7.4/plugins/b324_hashlib.html
+22	        """
+23	        hash_md5 = hashlib.md5()
+24	        with open(self.__crtpath,'rb') as crt:
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 54
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 0
+		Medium: 0
+		High: 1
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 0
+		High: 1
+Files skipped (0):
