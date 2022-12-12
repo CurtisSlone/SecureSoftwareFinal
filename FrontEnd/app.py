@@ -17,7 +17,6 @@ from models.UserModel import UserModel
 ### App Declarations
 ####################
 app = Flask(__name__)
-app.secret_key = "SECRET"
 login_manager = LoginManager()
 login_manager.init_app(app)
 preload = PreLoad()
